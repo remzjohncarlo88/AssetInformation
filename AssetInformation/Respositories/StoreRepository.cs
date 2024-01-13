@@ -28,7 +28,7 @@ namespace AssetInformation.Respositories
         /// <param name="name">asset name</param>
         /// <returns>Asset details.</returns>
         public async Task<AssetModel> GetAssetByName(string name) => 
-            await _dbContext.Assets.Include(x => x.Name.Equals(name)).FirstAsync();
+            await _dbContext.Assets.Where(x => x.Name.Equals(name)).FirstAsync();
         /// <summary>
         /// CreateAsset
         /// </summary>
@@ -50,10 +50,10 @@ namespace AssetInformation.Respositories
 
             foreach(var assetSource in assetPrices)
             {
-                var returnedAsset = assetSource.SourceId == 0 ? (await _dbContext.AssetSourcePrices.Include(x =>
+                var returnedAsset = assetSource.SourceId == 0 ? (await _dbContext.AssetSourcePrices.Where(x =>
                 x.AssetId.Equals(assetSource.AssetId)
                 && x.CreateDate.ToString("yyyy/MM/dd") == assetSource.CreateDate.ToString("yyyy/MM/dd")).FirstAsync()) :
-                (await _dbContext.AssetSourcePrices.Include(x =>
+                (await _dbContext.AssetSourcePrices.Where(x =>
                 x.AssetId.Equals(assetSource.AssetId)
                 && x.CreateDate.ToString("yyyy/MM/dd") == assetSource.CreateDate.ToString("yyyy/MM/dd")
                 && x.SourceId.Equals(assetSource.SourceId)).FirstAsync());
