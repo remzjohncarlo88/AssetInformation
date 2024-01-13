@@ -29,9 +29,9 @@ namespace AssetInformation.Controllers
         /// <returns>list of assets</returns>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetModel>))]
         [HttpGet("GetAssets")]
-        public async Task<IActionResult> GetAssets()
+        public IActionResult GetAssets()
         {
-            var owners = await _storeService.GetAssets();
+            var owners = _storeService.GetAssets();
             return Ok(owners);
         }
 
@@ -42,9 +42,9 @@ namespace AssetInformation.Controllers
         /// <returns>Asset details.</returns>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetModel>))]
         [HttpGet("GetAssetByName")]
-        public async Task<IActionResult> GetAssetByName(string name)
+        public IActionResult GetAssetByName(string name)
         {
-            var owners = await _storeService.GetAssetByName(name);
+            var owners = _storeService.GetAssetByName(name);
             return Ok(owners);
         }
 

@@ -41,9 +41,9 @@ namespace AssetInfoUnitTest.Services
         /// GetAssets
         /// </summary>
         /// <returns>List of Assets</returns>
-        public Task<IEnumerable<AssetModel>> GetAssets()
+        public IEnumerable<AssetModel> GetAssets()
         {
-            return await _assets;
+            return _assets;
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace AssetInfoUnitTest.Services
         /// </summary>
         /// <param name="name">asset name</param>
         /// <returns>Asset details.</returns>
-        public Task<AssetModel> GetAssetByName(string name)
+        public AssetModel GetAssetByName(string name)
         {
-            return _assets.Where(a => a.Name.Equals(name)).First();
+            return _assets.Where(a => a.Name.ToLower().Equals(name.ToLower())).FirstOrDefault();
         }
 
         /// <summary>

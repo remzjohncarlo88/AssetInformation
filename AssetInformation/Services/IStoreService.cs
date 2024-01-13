@@ -12,13 +12,13 @@ namespace AssetInformation.Services
         /// GetAssets
         /// </summary>
         /// <returns>List of Assets</returns>
-        Task<IEnumerable<AssetModel>> GetAssets();
+        IEnumerable<AssetModel> GetAssets();
         /// <summary>
         /// GetAssetByName
         /// </summary>
         /// <param name="name">asset name</param>
         /// <returns>Asset details.</returns>
-        Task<AssetModel> GetAssetByName(string name);
+        AssetModel GetAssetByName(string name);
         /// <summary>
         /// CreateAsset
         /// </summary>

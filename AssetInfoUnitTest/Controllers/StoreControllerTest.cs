@@ -26,23 +26,23 @@ namespace AssetInfoUnitTest.Controllers
         }
 
         [Fact]
-        public async void GetAssets_WhenCalled_ReturnsRightItem()
+        public void GetAssets_WhenCalled_ReturnsRightItem()
         {
             // Act
-            var items = await _controller.GetAssets() as OkObjectResult;
+            var items = _controller.GetAssets() as OkObjectResult;
             // Assert
             var itemsEq = Assert.IsType<List<AssetModel>>(items.Value);
             Assert.Single(itemsEq);
         }
 
         [Fact]
-        public async void GetAssetByName_WhenCalled_ReturnsRightItem()
+        public void GetAssetByName_WhenCalled_ReturnsRightItem()
         {
             // Act
-            var items = await _controller.GetAssetByName("Microsoft Corporation") as OkObjectResult;
+            var items = _controller.GetAssetByName("Microsoft Corporation") as OkObjectResult;
             // Assert
-            var itemsEq = Assert.IsType<List<AssetModel>>(items.Value);
-            Assert.Single(itemsEq);
+            var itemsEq = Assert.IsType<AssetModel>(items.Value);
+            Assert.Equal("MSFT", (items.Value as AssetModel).Symbol);
         }
     }
 }

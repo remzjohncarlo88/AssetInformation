@@ -12,13 +12,13 @@ namespace AssetInformation.Respositories
         /// GetAssets
         /// </summary>
         /// <returns>List of Assets</returns>
-        Task<IEnumerable<AssetModel>> GetAssets();
+        IEnumerable<AssetModel> GetAssets();
         /// <summary>
         /// GetAssetByName
         /// </summary>
         /// <param name="name">asset name</param>
         /// <returns>Asset details.</returns>
-        Task<AssetModel> GetAssetByName(string name);
+        AssetModel GetAssetByName(string name);
         /// <summary>
         /// CreateAsset
         /// </summary>
@@ -50,13 +50,13 @@ namespace AssetInformation.Respositories
         /// </summary>
         /// <param name="name">source name</param>
         /// <returns>Resource details.</returns>
-        Task<SourceModel> GetSourceByName(string name);
+        SourceModel GetSourceByName(string name);
         /// <summary>
         /// GetPriceByAssetSource
         /// </summary>
         /// <param name="assetId">asset id</param>
         /// <param name="sourceId">source id</param>
         /// <returns>AssetSourcePrice details.</returns>
-        Task<AssetSourcePriceModel> GetPriceByAssetSource(int assetId, int sourceId, DateTime createdDate);
+        AssetSourcePriceModel GetPriceByAssetSource(int assetId, int sourceId, DateTime createdDate);
     }
 }

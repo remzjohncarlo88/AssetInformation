@@ -22,14 +22,14 @@ namespace AssetInformation.Respositories
         /// GetAssets
         /// </summary>
         /// <returns>List of Assets</returns>
-        public async Task<IEnumerable<AssetModel>> GetAssets() => await _dbContext.Assets.ToListAsync();
+        public IEnumerable<AssetModel> GetAssets() => _dbContext.Assets.ToList();
         /// <summary>
         /// GetAssetByName
         /// </summary>
         /// <param name="name">asset name</param>
         /// <returns>Asset details.</returns>
-        public async Task<AssetModel> GetAssetByName(string name) => 
-            await _dbContext.Assets.Where(x => x.Name.Equals(name)).FirstAsync();
+        public AssetModel GetAssetByName(string name) => 
+            _dbContext.Assets.Where(x => x.Name.ToLower().Equals(name.ToLower())).FirstOrDefault();
         /// <summary>
         /// CreateAsset
         /// </summary>
@@ -95,8 +95,8 @@ namespace AssetInformation.Respositories
         /// </summary>
         /// <param name="name">source name</param>
         /// <returns>Resource details.</returns>
-        public async Task<SourceModel> GetSourceByName(string name) =>
-            await _dbContext.Sources.Where(x => x.Name.Equals(name)).FirstAsync();
+        public SourceModel GetSourceByName(string name) =>
+            _dbContext.Sources.Where(x => x.Name.ToLower().Equals(name.ToLower())).FirstOrDefault();
         /// <summary>
         /// GetPriceByAssetSource
         /// </summary>
@@ -104,12 +104,12 @@ namespace AssetInformation.Respositories
         /// <param name="sourceId">source id</param>
         /// <param name="createdDate">create date</param>
         /// <returns>AssetSourcePrice details.</returns>
-        public async Task<AssetSourcePriceModel> GetPriceByAssetSource(int assetId, int sourceId, DateTime createdDate)
+        public AssetSourcePriceModel GetPriceByAssetSource(int assetId, int sourceId, DateTime createdDate)
         {
             var data = createdDate != DateTime.MinValue ? 
-                    await _dbContext.AssetSourcePrices.Where(x => x.AssetId.Equals(assetId) && x.SourceId.Equals(sourceId)).FirstAsync() :
-                    await _dbContext.AssetSourcePrices.Where(x => x.AssetId.Equals(assetId) && x.SourceId.Equals(sourceId)
-                        && x.CreateDate.ToString("yyyy/MM/dd") == createdDate.ToString("yyyy/MM/dd")).FirstAsync();
+                    _dbContext.AssetSourcePrices.Where(x => x.AssetId.Equals(assetId) && x.SourceId.Equals(sourceId)).FirstOrDefault() :
+                    _dbContext.AssetSourcePrices.Where(x => x.AssetId.Equals(assetId) && x.SourceId.Equals(sourceId)
+                        && x.CreateDate.ToString("yyyy/MM/dd") == createdDate.ToString("yyyy/MM/dd")).FirstOrDefault();
 
             return data;
         }            

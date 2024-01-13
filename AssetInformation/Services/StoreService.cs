@@ -23,18 +23,18 @@ namespace AssetInformation.Services
         /// GetAssets
         /// </summary>
         /// <returns>List of Assets</returns>
-        public async Task<IEnumerable<AssetModel>> GetAssets()
+        public IEnumerable<AssetModel> GetAssets()
         {
-            return await _storeRepository.GetAssets();
+            return _storeRepository.GetAssets();
         }
         /// <summary>
         /// GetAssetByName
         /// </summary>
         /// <param name="name">asset name</param>
         /// <returns>Asset details.</returns>
-        public async Task<AssetModel> GetAssetByName(string name)
+        public AssetModel GetAssetByName(string name)
         {
-            return await _storeRepository.GetAssetByName(name);
+            return _storeRepository.GetAssetByName(name);
         }
         /// <summary>
         /// CreateAsset
@@ -58,7 +58,7 @@ namespace AssetInformation.Services
         /// <param name="ISIN">isin</param>
         public void UpdateAsset(string assetName, string symbol, string ISIN)
         {
-            var asset = Task.Run<AssetModel>(async() => await _storeRepository.GetAssetByName(assetName)).Result;
+            var asset = Task.Run<AssetModel>(async() => _storeRepository.GetAssetByName(assetName)).Result;
             asset.Name = assetName;
             asset.Symbol = symbol;
             asset.ISIN = ISIN;
@@ -73,10 +73,9 @@ namespace AssetInformation.Services
         /// <param name="createdDate">created date</param>
         public void CreatePrice(string assetName, string sourceName, decimal price, DateTime createdDate)
         {
-            var asset = Task.Run<AssetModel>(async () => await _storeRepository.GetAssetByName(assetName)).Result;
-            var source = Task.Run<SourceModel>(async () => await _storeRepository.GetSourceByName(sourceName)).Result;
-            var assetSourcePriceModel = Task.Run<AssetSourcePriceModel>(async () => 
-                await _storeRepository.GetPriceByAssetSource(asset.AssetId, source.SourceId, createdDate)).Result;
+            var asset = _storeRepository.GetAssetByName(assetName);
+            var source =  _storeRepository.GetSourceByName(sourceName);
+            var assetSourcePriceModel = _storeRepository.GetPriceByAssetSource(asset.AssetId, source.SourceId, createdDate);
 
             assetSourcePriceModel.AssetId = asset.AssetId;
             assetSourcePriceModel.SourceId = source.SourceId;
@@ -92,10 +91,9 @@ namespace AssetInformation.Services
         /// <param name="price">price</param>
         public void UpdatePrice(string assetName, string sourceName, decimal price)
         {
-            var asset = Task.Run<AssetModel>(async () => await _storeRepository.GetAssetByName(assetName)).Result;
-            var source = Task.Run<SourceModel>(async () => await _storeRepository.GetSourceByName(sourceName)).Result;
-            var assetSourcePriceModel = Task.Run<AssetSourcePriceModel>(async () => 
-                await _storeRepository.GetPriceByAssetSource(asset.AssetId, source.SourceId, DateTime.MinValue)).Result;
+            var asset =  _storeRepository.GetAssetByName(assetName);
+            var source = _storeRepository.GetSourceByName(sourceName);
+            var assetSourcePriceModel = _storeRepository.GetPriceByAssetSource(asset.AssetId, source.SourceId, DateTime.MinValue);
 
             assetSourcePriceModel.AssetId = asset.AssetId;
             assetSourcePriceModel.Price = price;
