@@ -39,12 +39,24 @@ namespace AssetInformation.Respositories
         /// AddPrice
         /// </summary>
         /// <param name="assetPrice">AssetPrice object</param>
-        void AddPrice(AssetSourcePriceModel assetPrice);
+        void CreatePrice(AssetSourcePriceModel assetPrice);
         /// <summary>
         /// UpdatePrice
         /// </summary>
         /// <param name="assetPrice">AssetPrice object</param>
         void UpdatePrice(AssetSourcePriceModel assetPrice);
-
+        /// <summary>
+        /// GetSourceByName
+        /// </summary>
+        /// <param name="name">source name</param>
+        /// <returns>Resource details.</returns>
+        Task<SourceModel> GetSourceByName(string name);
+        /// <summary>
+        /// GetPriceByAssetSource
+        /// </summary>
+        /// <param name="assetId">asset id</param>
+        /// <param name="sourceId">source id</param>
+        /// <returns>AssetSourcePrice details.</returns>
+        Task<AssetSourcePriceModel> GetPriceByAssetSource(int assetId, int sourceId, DateTime createdDate);
     }
 }

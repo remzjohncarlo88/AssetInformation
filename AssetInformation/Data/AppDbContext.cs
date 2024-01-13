@@ -21,8 +21,13 @@ namespace AssetInformation.Data
         /// </summary>
         public DbSet<AssetModel> Assets { get; set; }
         /// <summary>
-        /// 
+        /// Asset Sources Prices
         /// </summary>
         public DbSet<AssetSourcePriceModel> AssetSourcePrices { get; set; }
+
+        /// <summary>
+        /// Sources
+        /// </summary>
+        public DbSet<SourceModel> Sources { get; set; }
     }
 }

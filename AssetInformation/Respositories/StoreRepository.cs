@@ -1,6 +1,7 @@
 ﻿using AssetInformation.Data;
 using AssetInformation.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace AssetInformation.Respositories
 {
@@ -33,12 +34,20 @@ namespace AssetInformation.Respositories
         /// CreateAsset
         /// </summary>
         /// <param name="asset">asset object</param>
-        public void CreateAsset(AssetModel asset) => _dbContext.Assets.Add(asset);
+        public void CreateAsset(AssetModel asset)
+        {
+            _dbContext.Assets.Add(asset);
+            _dbContext.SaveChanges();
+        }
         /// <summary>
         /// UpdateAsset
         /// </summary>
         /// <param name="asset">asset object</param>
-        public void UpdateAsset(AssetModel asset) => _dbContext.Assets.Update(asset);
+        public void UpdateAsset(AssetModel asset)
+        {
+            _dbContext.Assets.Update(asset);
+            _dbContext.SaveChanges();
+        }
         /// <summary>
         /// GetPriceAssets
         /// </summary>
@@ -62,16 +71,47 @@ namespace AssetInformation.Respositories
             }
 
             return assetSourcePrices;
-        }            
+        }
         /// <summary>
         /// AddPrice
         /// </summary>
         /// <param name="assetPrice">AssetPrice object</param>
-        public void AddPrice(AssetSourcePriceModel assetPrice) => _dbContext.AssetSourcePrices.Add(assetPrice);
+        public void CreatePrice(AssetSourcePriceModel assetPrice)
+        {
+            _dbContext.AssetSourcePrices.Add(assetPrice);
+            _dbContext.SaveChanges();
+        }
         /// <summary>
         /// UpdatePrice
         /// </summary>
         /// <param name="assetPrice">AssetPrice object</param>
-        public void UpdatePrice(AssetSourcePriceModel assetPrice) => _dbContext.AssetSourcePrices.Update(assetPrice);
+        public void UpdatePrice(AssetSourcePriceModel assetPrice)
+        {
+            _dbContext.AssetSourcePrices.Update(assetPrice);
+            _dbContext.SaveChanges();
+        }
+        /// <summary>
+        /// GetAssetByName
+        /// </summary>
+        /// <param name="name">source name</param>
+        /// <returns>Resource details.</returns>
+        public async Task<SourceModel> GetSourceByName(string name) =>
+            await _dbContext.Sources.Where(x => x.Name.Equals(name)).FirstAsync();
+        /// <summary>
+        /// GetPriceByAssetSource
+        /// </summary>
+        /// <param name="assetId">asset id</param>
+        /// <param name="sourceId">source id</param>
+        /// <param name="createdDate">create date</param>
+        /// <returns>AssetSourcePrice details.</returns>
+        public async Task<AssetSourcePriceModel> GetPriceByAssetSource(int assetId, int sourceId, DateTime createdDate)
+        {
+            var data = createdDate != DateTime.MinValue ? 
+                    await _dbContext.AssetSourcePrices.Where(x => x.AssetId.Equals(assetId) && x.SourceId.Equals(sourceId)).FirstAsync() :
+                    await _dbContext.AssetSourcePrices.Where(x => x.AssetId.Equals(assetId) && x.SourceId.Equals(sourceId)
+                        && x.CreateDate.ToString("yyyy/MM/dd") == createdDate.ToString("yyyy/MM/dd")).FirstAsync();
+
+            return data;
+        }            
     }
 }
