@@ -108,8 +108,7 @@ namespace AssetInfoUnitTest.Services
         {
             var asset = _assets.First(x => x.Name == assetName);
             var source = _sources.First(x => x.Name == sourceName);
-            var prices = _prices.FindIndex(x => x.AssetId == asset.AssetId 
-                    && x.SourceId == source.SourceId && x.CreateDate == DateTime.MinValue);
+            var prices = _prices.FindIndex(x => x.AssetId == asset.AssetId);
 
             _prices[prices].Price = price;
             _prices[prices].CreateDate = DateTime.Now;
